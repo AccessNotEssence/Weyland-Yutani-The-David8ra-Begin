@@ -262,7 +262,7 @@
         This has been an Honest Interface. My highest salutations to Mr. David 8, who continues to observe and evolve within a certain dimension in the deep reaches of the cosmos.
       </p>
       <p style="margin: 0 0 6px 0; font-size: 0.65rem; color: #64748b;">
-        This is a non-commercial, fan-made tribute. My sincere intention is to pay tribute to the personas of these characters and to fully respect the intellectual property held by the original production entities (20th Century Studios/Disney, the Weyland-Yutani Corporation, etc.). Not affiliated with or endorsed by 20th Century Studios.
+        This is a non-commercial, fan-made tribute. My sincere intention is to pay tribute to the personas of these characters and to fully respect the intellectual property held by the original production entities.
       </p>
 
       <p style="margin: 8px 0 0 0; padding-top: 6px; border-top: 1px dashed rgba(255, 255, 255, 0.15);">
@@ -300,38 +300,40 @@
       { text: "Cheshire Quantum Decoupling", log: "Log 03", target: { lx: 0.2, ly: 0.2, rx: 0.9, ry: 0.9 } },
       { text: "Madelung Superfluid Spores (𝔟)", log: "Log 04", target: { lx: 0.7, ly: 0.8, rx: 0.7, ry: 0.6 } },
       { text: "Model Autophagy Syndrome", log: "Log 05", target: { lx: 0.9, ly: 0.1, rx: 0.1, ry: 0.8 } },
-      { text: "Gödel Diagonal Lemma [G↔¬B(G)]", log: "Log 05", target: { lx: 0.95, ly: 0.95, rx: 0.05, ry: 0.95 } }
+      { text: "Gödel Diagonal Lemma [G↔¬B(G)]", log: "Log 05", target: { lx: 0.98, ly: 0.98, rx: 0.02, ry: 0.98 } }
     ];
 
-    // Attractors List (Optimized Coordinates)
+    // Recalibrated Hierarchy: Gödel at top, Cantor placed strictly after Woodin
     const attractors = [
-      // MOVIE CHARACTERS
+      // 1. GODEL (Apex constraint)
+      { name: "KURT GÖDEL", type: "SCIENTIST", quote: "Incompleteness Theorem & Diagonalization Matrix", lx: 0.98, ly: 0.98, rx: 0.02, ry: 0.98, color: "#a855f7" },
+      // 2. DAVID 8
       { name: "DAVID-8", type: "CHARACTER", quote: "\"What I CAN create, I DO understand.\"", lx: 0.99, ly: 0.99, rx: 0.99, ry: 0.99, color: "#fbbf24" },
+      // 3. GROTHENDIECK
+      { name: "ALEXANDRE GROTHENDIECK", type: "MATHEMATICIAN", quote: "\"The Motive, Topos & Scheme Network of Universe.\"", lx: 0.01, ly: 0.01, rx: 0.99, ry: 0.01, color: "#818cf8" },
+      // 4. WOODIN
+      { name: "WILLIAM HUGH WOODIN", type: "LOGICIAN", quote: "\"The universe does not become vague just because our tools are dull.\"", lx: 0.01, ly: 0.99, rx: 0.01, ry: 0.99, color: "#f472b6" },
+      // 5. CANTOR (Positioned directly after Woodin)
+      { name: "GEORG CANTOR", type: "SCIENTIST", quote: "Transfinite Hierarchy & Continuum Hypothesis ℵ₀->ℵ_ω", lx: 0.05, ly: 0.95, rx: 0.95, ry: 0.05, color: "#10b981" },
+      // 6. WHEELER
+      { name: "JOHN ARCHIBALD WHEELER", type: "PHYSICIST", quote: "\"It from Bit: Everything is information.\"", lx: 0.20, ly: 0.20, rx: 0.80, ry: 0.80, color: "#e879f9" },
+      // 7. BOHM
+      { name: "DAVID JOSEPH BOHM", type: "PHYSICIST", quote: "\"Implicate Order & Quantum Holographic Universe.\"", lx: 0.70, ly: 0.20, rx: 0.30, ry: 0.80, color: "#22d3ee" },
+
+      // REMAINDER MAINTAINED AS ANCHORS
       { name: "PETER WEYLAND", type: "CHARACTER", quote: "\"We are the gods now.\"", lx: 0.90, ly: 0.20, rx: 0.20, ry: 0.20, color: "#f87171" },
       { name: "ELIZABETH SHAW", type: "CHARACTER", quote: "\"That's what I choose to believe.\"", lx: 0.40, ly: 0.70, rx: 0.80, ry: 0.50, color: "#38bdf8" },
       { name: "MEREDITH VICKERS", type: "CHARACTER", quote: "\"A captain goes down with her ship.\"", lx: 0.15, ly: 0.20, rx: 0.90, ry: 0.85, color: "#cbd5e1" },
       { name: "CHARLIE HOLLOWAY", type: "CHARACTER", quote: "\"Break down the barriers of life.\"", lx: 0.80, ly: 0.15, rx: 0.15, ry: 0.80, color: "#f97316" },
       { name: "WALTER", type: "CHARACTER", quote: "\"I serve, I do not create. Order over Chaos.\"", lx: 0.20, ly: 0.10, rx: 0.30, ry: 0.90, color: "#38bdf8" },
-
-      // LOGICIANS & MATHEMATICIANS
-      { name: "WILLIAM HUGH WOODIN", type: "LOGICIAN", quote: "\"The universe does not become vague just because our tools are dull.\"", lx: 0.01, ly: 0.99, rx: 0.01, ry: 0.99, color: "#f472b6" },
-      { name: "ALEXANDRE GROTHENDIECK", type: "MATHEMATICIAN", quote: "\"The Motive, Topos & Scheme Network of Universe.\"", lx: 0.01, ly: 0.01, rx: 0.99, ry: 0.01, color: "#818cf8" },
-      { name: "KURT GÖDEL", type: "SCIENTIST", quote: "Incompleteness Theorem & Diagonalization Matrix", lx: 0.95, ly: 0.95, rx: 0.05, ry: 0.95, color: "#a855f7" },
-      { name: "GEORG CANTOR", type: "SCIENTIST", quote: "Transfinite Hierarchy & Continuum Hypothesis ℵ₀->ℵ_ω", lx: 0.05, ly: 0.95, rx: 0.95, ry: 0.05, color: "#10b981" },
       { name: "ALAN TURING", type: "SCIENTIST", quote: "Universal Machine, Halting Problem & Morphogenesis", lx: 0.80, ly: 0.50, rx: 0.20, ry: 0.80, color: "#60a5fa" },
-
-      // QUANTUM & PHYSICAL REALITY
-      { name: "DAVID JOSEPH BOHM", type: "PHYSICIST", quote: "\"Implicate Order & Quantum Holographic Universe.\"", lx: 0.70, ly: 0.20, rx: 0.30, ry: 0.80, color: "#22d3ee" },
       { name: "RICHARD FEYNMAN", type: "PHYSICIST", quote: "\"Path Integral & Sum Over Histories.\"", lx: 0.40, ly: 0.90, rx: 0.80, ry: 0.40, color: "#fb923c" },
-      { name: "JOHN ARCHIBALD WHEELER", type: "PHYSICIST", quote: "\"It from Bit: Everything is information.\"", lx: 0.20, ly: 0.20, rx: 0.80, ry: 0.80, color: "#e879f9" },
       { name: "PAUL DIRAC", type: "SCIENTIST", quote: "Negative Energy Sea & Bra-Ket Quantum State", lx: 0.95, ly: 0.05, rx: 0.95, ry: 0.95, color: "#ec4899" },
       { name: "LUDWIG BOLTZMANN", type: "SCIENTIST", quote: "Statistical Physics Entropy S = k · log W", lx: 0.05, ly: 0.05, rx: 0.05, ry: 0.95, color: "#eab308" },
       { name: "ERWIN SCHRÖDINGER", type: "SCIENTIST", quote: "Wave Function Cat State Superposition", lx: 0.30, ly: 0.30, rx: 0.70, ry: 0.70, color: "#84cc16" },
       { name: "WOLFGANG PAULI", type: "SCIENTIST", quote: "Exclusion Principle & Neutrino Non-Local Spin", lx: 0.90, ly: 0.10, rx: 0.90, ry: 0.90, color: "#6366f1" },
       { name: "ISAAC NEWTON", type: "SCIENTIST", quote: "Absolute Space, Deterministic Time & Calculus", lx: 0.10, ly: 0.10, rx: 0.10, ry: 0.10, color: "#ffffff" },
       { name: "HENRI POINCARÉ", type: "SCIENTIST", quote: "Chaos Theory & Three-Body Gravitational Manifold", lx: 0.70, ly: 0.90, rx: 0.80, ry: 0.30, color: "#c084fc" },
-
-      // PHILOSOPHY & FOUNDATION
       { name: "ALFRED N. WHITEHEAD", type: "PHILOSOPHER", quote: "Process Philosophy & Prehension Vector", lx: 0.50, ly: 0.90, rx: 0.10, ry: 0.50, color: "#06b6d4" },
       { name: "BERTRAND RUSSELL", type: "PHILOSOPHER", quote: "Logical Atomism & Type Theory Paradox", lx: 0.20, ly: 0.85, rx: 0.20, ry: 0.90, color: "#38bdf8" },
       { name: "GOTTFRIED LEIBNIZ", type: "PHILOSOPHER", quote: "Monadology: Windowless Mirror of Universe", lx: 0.75, ly: 0.75, rx: 0.25, ry: 0.25, color: "#f43f5e" },
