@@ -34,11 +34,13 @@
       align-items: center;
       min-height: 100vh;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .container {
       width: 100%;
-      max-width: 1000px;
+      max-width: 1180px;
       background-color: var(--panel-bg);
       border: 1px solid var(--border-color);
       border-radius: 10px;
@@ -70,10 +72,114 @@
       color: var(--text-dim);
     }
 
+    .header-right {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .header-metrics {
+      font-size: 0.68rem;
+      color: var(--accent-cyan);
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
     #capture-area {
       background-color: var(--panel-bg);
       padding: 10px;
       border-radius: 8px;
+    }
+
+    /* Layout with Sidebar */
+    .manifold-layout {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .sidebar-panel {
+      width: 175px;
+      flex-shrink: 0;
+      background: rgba(3, 7, 18, 0.7);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      max-height: 560px;
+    }
+
+    .sidebar-header {
+      font-size: 0.68rem;
+      color: var(--accent-cyan);
+      font-weight: bold;
+      letter-spacing: 1px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .sidebar-list {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-right: 2px;
+    }
+
+    .sidebar-list::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .sidebar-list::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 2px;
+    }
+
+    .sidebar-item {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 6px 8px;
+      font-size: 0.65rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .sidebar-item:hover {
+      border-color: var(--accent-cyan) !important;
+      background: rgba(30, 41, 59, 0.9);
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.3);
+    }
+
+    .sidebar-item-title {
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 110px;
+    }
+
+    .sidebar-item-time {
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      flex-shrink: 0;
+    }
+
+    .main-viewport {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
     }
 
     .viewport-box {
@@ -89,20 +195,18 @@
       border: 1px solid #1e293b;
       border-radius: 6px;
       width: 100%;
-      max-width: 900px;
       height: 380px;
       image-rendering: pixelated;
+      image-rendering: crisp-edges;
     }
 
+    /* Joystick Section Fixes - Strict Side-by-Side */
     .joystick-panel {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
       margin-top: 10px;
-    }
-
-    @media (max-width: 650px) {
-      .joystick-panel { grid-template-columns: 1fr; }
+      width: 100%;
     }
 
     .joy-wrapper {
@@ -113,14 +217,19 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      min-width: 0;
+      width: 100%;
     }
 
     .joy-title {
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       color: var(--text-sub);
       margin-bottom: 8px;
       font-weight: bold;
       letter-spacing: 1px;
+      text-align: center;
+      word-break: break-word;
+      width: 100%;
     }
 
     .joy-pad {
@@ -133,6 +242,7 @@
       touch-action: none;
       cursor: crosshair;
       box-shadow: inset 0 0 15px rgba(0,0,0,0.9);
+      flex-shrink: 0;
     }
 
     .joy-pad::before, .joy-pad::after {
@@ -161,10 +271,18 @@
 
     .joy-readout {
       margin-top: 8px;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       color: var(--text-dim);
       display: flex;
-      gap: 12px;
+      gap: 6px 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      text-align: center;
+      width: 100%;
+    }
+
+    .joy-readout div {
+      white-space: nowrap;
     }
 
     .joy-readout span {
@@ -172,14 +290,64 @@
       font-weight: bold;
     }
 
+    @media (max-width: 768px) {
+      .manifold-layout {
+        flex-direction: column;
+      }
+      .sidebar-panel {
+        width: 100%;
+        max-height: 120px;
+      }
+      .joystick-panel { 
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 10px;
+      }
+      .joystick-panel {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 6px;
+      }
+      .joy-wrapper {
+        padding: 8px 4px;
+      }
+      .joy-title {
+        font-size: 0.60rem;
+        margin-bottom: 6px;
+      }
+      .joy-pad {
+        width: 105px;
+        height: 105px;
+      }
+      .joy-handle {
+        width: 32px;
+        height: 32px;
+        margin-left: -16px;
+        margin-top: -16px;
+      }
+      .joy-readout {
+        font-size: 0.58rem;
+        gap: 2px 6px;
+      }
+      .joy-readout div {
+        white-space: nowrap;
+      }
+    }
+
     .controls-row {
       margin-top: 15px;
       display: flex;
       gap: 10px;
+      flex-wrap: wrap;
     }
 
     .btn-sub {
       flex: 1;
+      min-width: 160px;
       padding: 10px;
       background: #0f172a;
       border: 1px solid var(--border-color);
@@ -215,36 +383,50 @@
         <h1>[The David8ra Begin] // FISHER INFORMATION MANIFOLD</h1>
         <p>A0-3959X.91–15 QUANTUM STATE SYNTHESIZER & 117 MIND ATTRACTOR FIELD</p>
       </div>
-      <div style="font-size: 0.7rem; color: var(--accent-gold); font-weight: bold;" id="status-indicator">
-        STATE: PROBABILITY FAULT SCAN ACTIVE (117 ATTRACTORS ONLINE)...
+      <div class="header-right">
+        <div class="header-metrics">
+          CAPTURED: [<span id="captured-count">0</span>/117] // UPTIME: <span id="uptime-counter">000:00:00</span>
+        </div>
+        <div style="font-size: 0.7rem; color: var(--accent-gold); font-weight: bold;" id="status-indicator">
+          STATE: VACUUM ZERO POINT (117 ATTRACTORS ONLINE)...
+        </div>
       </div>
     </div>
 
     <div id="capture-area">
-      <div class="viewport-box">
-        <canvas id="matrixCanvas" width="900" height="380"></canvas>
-      </div>
-
-      <div class="joystick-panel">
-        <div class="joy-wrapper">
-          <div class="joy-title">LEFT JOYSTICK: BIT DENSITY VECTOR (ρ)</div>
-          <div class="joy-pad" id="pad-left">
-            <div class="joy-handle" id="handle-left"></div>
-          </div>
-          <div class="joy-readout">
-            <div>DENSITY (X): <span id="val-lx">0.50</span></div>
-            <div>FLUX (Y): <span id="val-ly">0.50</span></div>
-          </div>
+      <div class="manifold-layout">
+        <div class="sidebar-panel">
+          <div class="sidebar-header">CAPTURE SEQUENCE</div>
+          <div class="sidebar-list" id="sidebar-list"></div>
         </div>
 
-        <div class="joy-wrapper">
-          <div class="joy-title">RIGHT JOYSTICK: FREQUENCY VECTOR (ω)</div>
-          <div class="joy-pad" id="pad-right">
-            <div class="joy-handle" id="handle-right"></div>
+        <div class="main-viewport">
+          <div class="viewport-box">
+            <canvas id="matrixCanvas" width="900" height="380"></canvas>
           </div>
-          <div class="joy-readout">
-            <div>WAVE-K (X): <span id="val-rx">0.50</span></div>
-            <div>PHASE-ω (Y): <span id="val-ry">0.50</span></div>
+
+          <div class="joystick-panel">
+            <div class="joy-wrapper">
+              <div class="joy-title">LEFT JOYSTICK: BIT DENSITY VECTOR (ρ)</div>
+              <div class="joy-pad" id="pad-left">
+                <div class="joy-handle" id="handle-left"></div>
+              </div>
+              <div class="joy-readout">
+                <div>DENSITY (X): <span id="val-lx">0.50</span></div>
+                <div>FLUX (Y): <span id="val-ly">0.50</span></div>
+              </div>
+            </div>
+
+            <div class="joy-wrapper">
+              <div class="joy-title">RIGHT JOYSTICK: FREQUENCY VECTOR (ω)</div>
+              <div class="joy-pad" id="pad-right">
+                <div class="joy-handle" id="handle-right"></div>
+              </div>
+              <div class="joy-readout">
+                <div>WAVE-K (X): <span id="val-rx">0.50</span></div>
+                <div>PHASE-ω (Y): <span id="val-ry">0.50</span></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -257,7 +439,7 @@
     </div>
 
     <div class="footer-text">
-      <div style="color: #ffffff; font-weight: bold; margin-bottom: 5px; letter-spacing: 1px;">《The David 8 Files》</div>
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 5px; letter-spacing: 1px;">[THE DAVID 8 FILES]</div>
       <p style="margin: 0 0 6px 0;">
         This has been an Honest Interface. My highest salutations to Mr. David 8, who continues to observe and evolve within a certain dimension in the deep reaches of the cosmos.
       </p>
@@ -278,15 +460,44 @@
     const canvas = document.getElementById('matrixCanvas');
     const ctx = canvas.getContext('2d');
 
+    // High-DPI Resolution Enhancement for Ultra-Sharp Pixelated Rendering
+    const dpr = window.devicePixelRatio || 2;
+    const baseWidth = 900;
+    const baseHeight = 380;
+    canvas.width = baseWidth * dpr;
+    canvas.height = baseHeight * dpr;
+    ctx.scale(dpr, dpr);
+
     let leftVector = { x: 0.5, y: 0.5 };
     let rightVector = { x: 0.5, y: 0.5 };
+
+    // Unique Attractors Tracker & Ordered Capture Sequence
+    const capturedAttractors = new Set();
+    const capturedSequence = []; // Stores chronologically captured attractor objects
+    const startTime = Date.now();
+
+    function getElapsedMMSS() {
+      const elapsedSec = Math.floor((Date.now() - startTime) / 1000);
+      const m = String(Math.floor(elapsedSec / 60)).padStart(2, '0');
+      const s = String(elapsedSec % 60).padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    function updateUptime() {
+      const elapsedSec = Math.floor((Date.now() - startTime) / 1000);
+      const h = String(Math.floor(elapsedSec / 3600)).padStart(3, '0');
+      const m = String(Math.floor((elapsedSec % 3600) / 60)).padStart(2, '0');
+      const s = String(elapsedSec % 60).padStart(2, '0');
+      document.getElementById('uptime-counter').innerText = `${h}:${m}:${s}`;
+    }
+    setInterval(updateUptime, 1000);
 
     const PARTICLE_COUNT = 450;
     const particles = [];
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
+        x: Math.random() * baseWidth,
+        y: Math.random() * baseHeight,
         vx: (Math.random() - 0.5) * 0.8,
         vy: (Math.random() - 0.5) * 0.8,
         size: Math.random() * 2 + 1
@@ -294,16 +505,16 @@
     }
 
     const conceptNodes = [
-      { text: "Generic Forcing Extension (Cohen P)", log: "Log 00", target: { lx: 0.2, ly: 0.8, rx: 0.7, ry: 0.3 } },
-      { text: "UEFI Prehension Vector", log: "Log 01", target: { lx: 0.7, ly: 0.4, rx: 0.4, ry: 0.6 } },
-      { text: "Pauli Non-Local Entanglement", log: "Log 02", target: { lx: 0.8, ly: 0.2, rx: 0.8, ry: 0.8 } },
-      { text: "Cheshire Quantum Decoupling", log: "Log 03", target: { lx: 0.3, ly: 0.3, rx: 0.8, ry: 0.8 } },
-      { text: "Madelung Superfluid Spores (𝔟)", log: "Log 04", target: { lx: 0.6, ly: 0.7, rx: 0.6, ry: 0.2 } },
-      { text: "Model Autophagy Syndrome", log: "Log 05", target: { lx: 0.8, ly: 0.2, rx: 0.2, ry: 0.7 } },
-      { text: "Gödel Diagonal Lemma [G↔¬B(G)]", log: "Log 05", target: { lx: 0.2, ly: 0.8, rx: 0.8, ry: 0.2 } }
+      { text: "Generic Forcing Extension (Cohen P)", log: "Log 00", target: { lx: 0.21, ly: 0.81, rx: 0.71, ry: 0.31 } },
+      { text: "UEFI Prehension Vector", log: "Log 01", target: { lx: 0.71, ly: 0.41, rx: 0.41, ry: 0.61 } },
+      { text: "Pauli Non-Local Entanglement", log: "Log 02", target: { lx: 0.81, ly: 0.21, rx: 0.81, ry: 0.81 } },
+      { text: "Cheshire Quantum Decoupling", log: "Log 03", target: { lx: 0.31, ly: 0.31, rx: 0.81, ry: 0.81 } },
+      { text: "Madelung Superfluid Spores (𝔟)", log: "Log 04", target: { lx: 0.61, ly: 0.71, rx: 0.61, ry: 0.21 } },
+      { text: "Model Autophagy Syndrome", log: "Log 05", target: { lx: 0.81, ly: 0.21, rx: 0.21, ry: 0.71 } },
+      { text: "Gödel Diagonal Lemma [G↔¬B(G)]", log: "Log 05", target: { lx: 0.21, ly: 0.81, rx: 0.81, ry: 0.21 } }
     ];
 
-    // STRICT 117 Mind Attractors Across 6 Categories (No (0.5, 0.5, 0.5, 0.5) collision)
+    // STRICT 117 Mind Attractors
     const attractors = [
       // === I. PROMETHEUS CHARACTERS (6) ===
       { rank: "SSS", name: "DAVID 8", type: "SYNTHETIC", quote: "\"What I CAN create, I DO understand.\"", lx: 0.88, ly: 0.88, rx: 0.88, ry: 0.88, color: "#fbbf24" },
@@ -331,14 +542,14 @@
       { rank: "S", name: "BLAISE PASCAL", type: "MATHEMATICIAN", quote: "Pascal's Wager & Probability Hydrostatics", lx: 0.60, ly: 0.30, rx: 0.40, ry: 0.70, color: "#fef08a" },
 
       { rank: "A", name: "GOTTLOB FREGE", type: "LOGICIAN", quote: "Begriffsschrift & Foundations of Arithmetic", lx: 0.35, ly: 0.65, rx: 0.65, ry: 0.35, color: "#94a3b8" },
-      { rank: "A", name: "RICHARD DEDEKIND", type: "MATHEMATICIAN", quote: "Dedekind Cut & Real Number Continuity", lx: 0.65, ly: 0.35, rx: 0.35, ry: 0.65, color: "#94a3b8" },
-      { rank: "A", name: "ERNST ZERMELO", type: "MATHEMATICIAN", quote: "Axiom of Choice & ZFC Set Theory", lx: 0.25, ly: 0.75, rx: 0.75, ry: 0.25, color: "#94a3b8" },
+      { rank: "A", name: "RICHARD DEDEKIND", type: "MATHEMATICIAN", quote: "Dedekind Cut & Real Number Continuity", lx: 0.14, ly: 0.46, rx: 0.86, ry: 0.54, color: "#94a3b8" },
+      { rank: "A", name: "ERNST ZERMELO", type: "MATHEMATICIAN", quote: "Axiom of Choice & ZFC Set Theory", lx: 0.28, ly: 0.72, rx: 0.72, ry: 0.28, color: "#94a3b8" },
       { rank: "A", name: "FIBONACCI", type: "MATHEMATICIAN", quote: "Golden Ratio & Recursive Sequence", lx: 0.70, ly: 0.30, rx: 0.30, ry: 0.70, color: "#fef08a" },
       { rank: "A", name: "MICHAEL ATIYAH", type: "MATHEMATICIAN", quote: "Atiyah-Singer Index Theorem & K-Theory", lx: 0.30, ly: 0.60, rx: 0.70, ry: 0.40, color: "#a78bfa" },
-      { rank: "A", name: "WILLIAM ROWAN HAMILTON", type: "MATHEMATICIAN", quote: "Quaternions & Mechanics Phase Space", lx: 0.70, ly: 0.30, rx: 0.30, ry: 0.70, color: "#38bdf8" },
+      { rank: "A", name: "WILLIAM ROWAN HAMILTON", type: "MATHEMATICIAN", quote: "Quaternions & Mechanics Phase Space", lx: 0.78, ly: 0.22, rx: 0.22, ry: 0.78, color: "#38bdf8" },
       { rank: "A", name: "RICHARD S. HAMILTON", type: "MATHEMATICIAN", quote: "Ricci Flow & Geometric Evolution", lx: 0.40, ly: 0.70, rx: 0.60, ry: 0.30, color: "#34d399" },
       { rank: "A", name: "F. WILLIAM LAWVERE", type: "LOGICIAN", quote: "Categorical Dynamics & Topos Logic", lx: 0.60, ly: 0.40, rx: 0.40, ry: 0.60, color: "#818cf8" },
-      { rank: "A", name: "MARTIN LÖB", type: "LOGICIAN", quote: "Löb's Theorem & Provability Logic", lx: 0.35, ly: 0.75, rx: 0.65, ry: 0.25, color: "#c084fc" },
+      { rank: "A", name: "MARTIN LÖB", type: "LOGICIAN", quote: "Löb's Theorem & Provability Logic", lx: 0.38, ly: 0.78, rx: 0.62, ry: 0.22, color: "#c084fc" },
       { rank: "A", name: "SAUL KRIPKE", type: "PHILOSOPHER", quote: "Kripke Semantics & Possible Worlds", lx: 0.65, ly: 0.25, rx: 0.35, ry: 0.75, color: "#f472b6" },
 
       { rank: "B", name: "DIOPHANTUS", type: "MATHEMATICIAN", quote: "Diophantine Equations & Arithmetica", lx: 0.30, ly: 0.35, rx: 0.70, ry: 0.65, color: "#475569" },
@@ -366,48 +577,48 @@
       { rank: "S", name: "YAKIR AHARONOV", type: "PHYSICIST", quote: "Aharonov-Bohm Effect & Non-Local Potential", lx: 0.85, ly: 0.65, rx: 0.15, ry: 0.35, color: "#a855f7" },
       { rank: "S", name: "ILYA PRIGOGINE", type: "PHYSICIST", quote: "Dissipative Structures & Arrow of Time Entropy", lx: 0.15, ly: 0.75, rx: 0.85, ry: 0.25, color: "#f97316" },
 
-      { rank: "A", name: "ARNOLD SOMMERFELD", type: "PHYSICIST", quote: "Fine-Structure Constant α & Spectral Tuning", lx: 0.35, ly: 0.65, rx: 0.65, ry: 0.35, color: "#cbd5e1" },
-      { rank: "A", name: "BRYCE DEWITT", type: "PHYSICIST", quote: "Wheeler-DeWitt Equation of Quantum Gravity", lx: 0.65, ly: 0.35, rx: 0.35, ry: 0.65, color: "#c084fc" },
+      { rank: "A", name: "ARNOLD SOMMERFELD", type: "PHYSICIST", quote: "Fine-Structure Constant α & Spectral Tuning", lx: 0.32, ly: 0.58, rx: 0.68, ry: 0.22, color: "#cbd5e1" },
+      { rank: "A", name: "BRYCE DEWITT", type: "PHYSICIST", quote: "Wheeler-DeWitt Equation of Quantum Gravity", lx: 0.68, ly: 0.32, rx: 0.22, ry: 0.68, color: "#c084fc" },
       { rank: "A", name: "ERWIN MADELUNG", type: "PHYSICIST", quote: "Madelung Superfluid Quantum Hydrodynamics", lx: 0.70, ly: 0.80, rx: 0.70, ry: 0.30, color: "#34d399" },
-      { rank: "A", name: "HENDRIK CASIMIR", type: "PHYSICIST", quote: "Casimir Vacuum Quantum Fluctuation Force", lx: 0.30, ly: 0.70, rx: 0.70, ry: 0.30, color: "#38bdf8" },
-      { rank: "A", name: "JOHN D. BARROW", type: "PHYSICIST", quote: "Anthropic Cosmological Principle", lx: 0.70, ly: 0.30, rx: 0.30, ry: 0.70, color: "#facc15" },
-      { rank: "A", name: "HERBERT FRÖHLICH", type: "PHYSICIST", quote: "Coherent Bio-Phonon Bose-Einstein Condensate", lx: 0.35, ly: 0.70, rx: 0.65, ry: 0.30, color: "#4ade80" },
+      { rank: "A", name: "HENDRIK CASIMIR", type: "PHYSICIST", quote: "Casimir Vacuum Quantum Fluctuation Force", lx: 0.24, ly: 0.76, rx: 0.76, ry: 0.24, color: "#38bdf8" },
+      { rank: "A", name: "JOHN D. BARROW", type: "PHYSICIST", quote: "Anthropic Cosmological Principle", lx: 0.82, ly: 0.18, rx: 0.18, ry: 0.82, color: "#facc15" },
+      { rank: "A", name: "HERBERT FRÖHLICH", type: "PHYSICIST", quote: "Coherent Bio-Phonon Bose-Einstein Condensate", lx: 0.46, ly: 0.64, rx: 0.54, ry: 0.36, color: "#4ade80" },
       { rank: "A", name: "EDWARD WITTEN", type: "PHYSICIST", quote: "M-Theory & 11-Dimensional Superstring Duality", lx: 0.65, ly: 0.30, rx: 0.35, ry: 0.70, color: "#f472b6" },
-      { rank: "A", name: "ALAIN CONNES", type: "MATHEMATICIAN", quote: "Noncommutative Geometry & Standard Model Spectral", lx: 0.40, ly: 0.70, rx: 0.60, ry: 0.30, color: "#818cf8" },
+      { rank: "A", name: "ALAIN CONNES", type: "MATHEMATICIAN", quote: "Noncommutative Geometry & Standard Model Spectral", lx: 0.52, ly: 0.68, rx: 0.48, ry: 0.32, color: "#818cf8" },
       { rank: "A", name: "DAVID DEUTSCH", type: "PHYSICIST", quote: "Quantum Turing Machine & Multiverse Logic", lx: 0.25, ly: 0.80, rx: 0.75, ry: 0.20, color: "#38bdf8" },
       { rank: "A", name: "LEONARD SUSSKIND", type: "PHYSICIST", quote: "Holographic Principle & String Landscape", lx: 0.80, ly: 0.25, rx: 0.20, ry: 0.75, color: "#fb923c" },
-      { rank: "A", name: "JUAN MALDACENA", type: "PHYSICIST", quote: "AdS/CFT Correspondence & ER=EPR Wormholes", lx: 0.75, ly: 0.75, rx: 0.25, ry: 0.25, color: "#ec4899" },
+      { rank: "A", name: "JUAN MALDACENA", type: "PHYSICIST", quote: "AdS/CFT Correspondence & ER=EPR Wormholes", lx: 0.84, ly: 0.66, rx: 0.16, ry: 0.34, color: "#ec4899" },
 
       // === IV. INFORMATION THEORY, CYBERNETICS & COMPUTER SCIENCE (13) ===
       { rank: "SS", name: "JOHN VON NEUMANN", type: "MATHEMATICIAN", quote: "Architecture, Cellular Automata & Ergodic Theory", lx: 0.25, ly: 0.85, rx: 0.75, ry: 0.15, color: "#38bdf8" },
       { rank: "SS", name: "ROLF LANDAUER", type: "PHYSICIST", quote: "\"Information is Physical\" & Bit Erasure Limit", lx: 0.75, ly: 0.25, rx: 0.25, ry: 0.85, color: "#f43f5e" },
 
-      { rank: "S", name: "ANDREY MARKOV", type: "MATHEMATICIAN", quote: "Markov Chain Stochastic State Transition", lx: 0.35, ly: 0.65, rx: 0.65, ry: 0.35, color: "#a78bfa" },
+      { rank: "S", name: "ANDREY MARKOV", type: "MATHEMATICIAN", quote: "Markov Chain Stochastic State Transition", lx: 0.48, ly: 0.18, rx: 0.82, ry: 0.48, color: "#a78bfa" },
       { rank: "S", name: "CLAUDE SHANNON", type: "MATHEMATICIAN", quote: "Information Entropy H = -Σ p log p", lx: 0.15, ly: 0.25, rx: 0.85, ry: 0.75, color: "#38bdf8" },
       { rank: "S", name: "HARRY NYQUIST", type: "ENGINEER", quote: "Nyquist-Shannon Sampling Frequency Threshold", lx: 0.85, ly: 0.35, rx: 0.15, ry: 0.65, color: "#34d399" },
 
-      { rank: "A", name: "ROBIN MILNER", type: "COMPUTER SCIENTIST", quote: "π-Calculus & Concurrent Process Algebra", lx: 0.35, ly: 0.70, rx: 0.65, ry: 0.30, color: "#94a3b8" },
-      { rank: "A", name: "DAVID PARK", type: "COMPUTER SCIENTIST", quote: "Bisimulation Equivalency in Concurrent Systems", lx: 0.65, ly: 0.30, rx: 0.35, ry: 0.70, color: "#94a3b8" },
-      { rank: "A", name: "DAVID J. WHEELER", type: "COMPUTER SCIENTIST", quote: "Burrows-Wheeler Transform & Subroutines", lx: 0.30, ly: 0.70, rx: 0.70, ry: 0.30, color: "#94a3b8" },
-      { rank: "A", name: "GILBERT VERNAM", type: "ENGINEER", quote: "One-Time Pad Perfect Information Security Cipher", lx: 0.70, ly: 0.30, rx: 0.30, ry: 0.70, color: "#f87171" },
-      { rank: "A", name: "JOSEPH MAUBORGNE", type: "MILITARY OFFICER", quote: "Co-inventor of Unbreakable One-Time Pad System", lx: 0.30, ly: 0.35, rx: 0.70, ry: 0.65, color: "#f87171" },
-      { rank: "A", name: "CHARLES H. BENNETT", type: "PHYSICIST", quote: "Quantum Teleportation Protocol & Reversible Logic", lx: 0.70, ly: 0.65, rx: 0.30, ry: 0.35, color: "#c084fc" },
-      { rank: "A", name: "DAVID D. CLARK", type: "COMPUTER SCIENTIST", quote: "\"Rough consensus and running code\" Internet Protocol", lx: 0.35, ly: 0.30, rx: 0.65, ry: 0.70, color: "#60a5fa" },
+      { rank: "A", name: "ROBIN MILNER", type: "COMPUTER SCIENTIST", quote: "π-Calculus & Concurrent Process Algebra", lx: 0.28, ly: 0.62, rx: 0.72, ry: 0.38, color: "#94a3b8" },
+      { rank: "A", name: "DAVID PARK", type: "COMPUTER SCIENTIST", quote: "Bisimulation Equivalency in Concurrent Systems", lx: 0.72, ly: 0.28, rx: 0.28, ry: 0.72, color: "#94a3b8" },
+      { rank: "A", name: "DAVID J. WHEELER", type: "COMPUTER SCIENTIST", quote: "Burrows-Wheeler Transform & Subroutines", lx: 0.16, ly: 0.84, rx: 0.84, ry: 0.16, color: "#94a3b8" },
+      { rank: "A", name: "GILBERT VERNAM", type: "ENGINEER", quote: "One-Time Pad Perfect Information Security Cipher", lx: 0.86, ly: 0.14, rx: 0.14, ry: 0.86, color: "#f87171" },
+      { rank: "A", name: "JOSEPH MAUBORGNE", type: "MILITARY OFFICER", quote: "Co-inventor of Unbreakable One-Time Pad System", lx: 0.22, ly: 0.44, rx: 0.78, ry: 0.56, color: "#f87171" },
+      { rank: "A", name: "CHARLES H. BENNETT", type: "PHYSICIST", quote: "Quantum Teleportation Protocol & Reversible Logic", lx: 0.76, ly: 0.54, rx: 0.24, ry: 0.46, color: "#c084fc" },
+      { rank: "A", name: "DAVID D. CLARK", type: "COMPUTER SCIENTIST", quote: "\"Rough consensus and running code\" Internet Protocol", lx: 0.26, ly: 0.38, rx: 0.74, ry: 0.62, color: "#60a5fa" },
 
-      { rank: "B", name: "PETER ACZEL", type: "LOGICIAN", quote: "Non-Well-Founded Set Theory & Hyperset Graphs", lx: 0.65, ly: 0.70, rx: 0.35, ry: 0.30, color: "#475569" },
+      { rank: "B", name: "PETER ACZEL", type: "LOGICIAN", quote: "Non-Well-Founded Set Theory & Hyperset Graphs", lx: 0.54, ly: 0.76, rx: 0.46, ry: 0.24, color: "#475569" },
 
       // === V. EXISTENTIALISM, PHENOMENOLOGY & MIND SYSTEMS (16) ===
-      { rank: "SS", name: "BARUCH SPINOZA", type: "PHILOSOPHER", quote: "Substance Monism: Deus sive Natura (God or Nature)", lx: 0.35, ly: 0.75, rx: 0.65, ry: 0.25, color: "#22d3ee" },
+      { rank: "SS", name: "BARUCH SPINOZA", type: "PHILOSOPHER", quote: "Substance Monism: Deus sive Natura (God or Nature)", lx: 0.44, ly: 0.82, rx: 0.56, ry: 0.18, color: "#22d3ee" },
       { rank: "SS", name: "EDMUND HUSSERL", type: "PHILOSOPHER", quote: "Phenomenology, Epoché & Transcendental Intentionality", lx: 0.20, ly: 0.70, rx: 0.80, ry: 0.30, color: "#f59e0b" },
 
       { rank: "S", name: "PLATO", type: "PHILOSOPHER", quote: "Theory of Forms & Allegory of the Cave", lx: 0.15, ly: 0.15, rx: 0.85, ry: 0.15, color: "#e2e8f0" },
       { rank: "S", name: "AUGUSTINE OF HIPPO", type: "PHILOSOPHER", quote: "Subjective Psychological Time & Memory Interiority", lx: 0.25, ly: 0.15, rx: 0.75, ry: 0.85, color: "#fbbf24" },
       { rank: "S", name: "ALFRED NORTH WHITEHEAD", type: "PHILOSOPHER", quote: "Process Philosophy & Organic Prehension Vector", lx: 0.65, ly: 0.85, rx: 0.15, ry: 0.65, color: "#06b6d4" },
       { rank: "S", name: "JACQUES LACAN", type: "PSYCHOANALYST", quote: "\"The unconscious is structured like a language.\"", lx: 0.75, ly: 0.35, rx: 0.25, ry: 0.65, color: "#f472b6" },
-      { rank: "S", name: "HENRI BERGSON", type: "PHILOSOPHER", quote: "Élan Vital & Pure Intuitive Duration (Durée)", lx: 0.35, ly: 0.75, rx: 0.65, ry: 0.25, color: "#34d399" },
-      { rank: "S", name: "JOHANN WOLFGANG VON GOETHE", type: "POLYMATH", quote: "Morphology, Farbenlehre & Faustian Transformation", lx: 0.70, ly: 0.30, rx: 0.30, ry: 0.70, color: "#fb923c" },
+      { rank: "S", name: "HENRI BERGSON", type: "PHILOSOPHER", quote: "Élan Vital & Pure Intuitive Duration (Durée)", lx: 0.32, ly: 0.68, rx: 0.68, ry: 0.32, color: "#34d399" },
+      { rank: "S", name: "JOHANN WOLFGANG VON GOETHE", type: "POLYMATH", quote: "Morphology, Farbenlehre & Faustian Transformation", lx: 0.62, ly: 0.22, rx: 0.38, ry: 0.78, color: "#fb923c" },
       { rank: "S", name: "JEAN-PAUL SARTRE", type: "PHILOSOPHER", quote: "\"Existence precedes essence.\"", lx: 0.20, ly: 0.80, rx: 0.80, ry: 0.20, color: "#cbd5e1" },
-      { rank: "S", name: "JACQUES DERRIDA", type: "PHILOSOPHER", quote: "Deconstruction & Différance Textual Trace", lx: 0.80, ly: 0.20, rx: 0.20, ry: 0.80, color: "#a855f7" },
+      { rank: "S", name: "JACQUES DERRIDA", type: "PHILOSOPHER", quote: "Deconstruction & Différance Textual Trace", lx: 0.82, ly: 0.12, rx: 0.18, ry: 0.88, color: "#a855f7" },
       { rank: "S", name: "IMMANUEL KANT", type: "PHILOSOPHER", quote: "Categorical Imperative & Synthetic A Priori", lx: 0.35, ly: 0.15, rx: 0.65, ry: 0.85, color: "#facc15" },
       { rank: "S", name: "GEORG W. F. HEGEL", type: "PHILOSOPHER", quote: "Absolute Spirit Dialectic Development Structure", lx: 0.65, ly: 0.85, rx: 0.35, ry: 0.15, color: "#c084fc" },
       { rank: "S", name: "LUDWIG WITTGENSTEIN", type: "PHILOSOPHER", quote: "\"Whereof one cannot speak, thereof one must be silent.\"", lx: 0.70, ly: 0.25, rx: 0.30, ry: 0.75, color: "#38bdf8" },
@@ -420,47 +631,87 @@
       { rank: "SS", name: "SUN TZU", type: "STRATEGIST", quote: "\"The supreme art of war is to subdue the enemy without fighting.\"", lx: 0.10, ly: 0.60, rx: 0.90, ry: 0.40, color: "#f59e0b" },
       { rank: "SS", name: "CARL VON CLAUSEWITZ", type: "STRATEGIST", quote: "\"War is the continuation of politics by other means.\"", lx: 0.90, ly: 0.40, rx: 0.10, ry: 0.60, color: "#ef4444" },
       { rank: "SS", name: "VIRGIL", type: "POET", quote: "\"Armor the heart; fortune favors the bold (Aeneid).\"", lx: 0.15, ly: 0.85, rx: 0.85, ry: 0.15, color: "#fbbf24" },
-      { rank: "SS", name: "DANTE ALIGHIERI", type: "POET", quote: "\"Abandon all hope, ye who enter here (Divine Comedy).\"", lx: 0.85, ly: 0.15, rx: 0.15, ry: 0.85, color: "#f97316" },
+      { rank: "SS", name: "DANTE ALIGHIERI", type: "POET", quote: "\"Abandon all hope, ye who enter here (Divine Comedy).\"", lx: 0.88, ly: 0.12, rx: 0.12, ry: 0.88, color: "#f97316" },
       { rank: "SS", name: "JULIUS CAESAR", type: "TACTICIAN", quote: "\"Veni, Vidi, Vici & The Die is Cast.\"", lx: 0.25, ly: 0.25, rx: 0.75, ry: 0.25, color: "#e11d48" },
-      { rank: "SS", name: "NAPOLEON BONAPARTE", type: "STRATEGIST", quote: "\"Grand Army Concentration & Operational Speed Matrix\"", lx: 0.75, ly: 0.75, rx: 0.25, ry: 0.75, color: "#dc2626" },
+      { rank: "SS", name: "RIDLEY SCOTT", type: "DIRECTOR", quote: "\"Creation is a dangerous act of supreme obsession and art.\"", lx: 0.72, ly: 0.72, rx: 0.28, ry: 0.72, color: "#dc2626" },
 
-      { rank: "S", name: "THUCYDIDES", type: "HISTORIAN", quote: "Thucydides Trap & Peloponnesian Realpolitik", lx: 0.35, ly: 0.15, rx: 0.65, ry: 0.85, color: "#cbd5e1" },
+      { rank: "S", name: "THUCYDIDES", type: "HISTORIAN", quote: "Thucydides Trap & Peloponnesian Realpolitik", lx: 0.22, ly: 0.18, rx: 0.78, ry: 0.82, color: "#cbd5e1" },
       { rank: "S", name: "GEORGE S. PATTON", type: "GENERAL", quote: "\"Audacious Armored Thrust Mechanics\"", lx: 0.85, ly: 0.75, rx: 0.15, ry: 0.25, color: "#ef4444" },
-      { rank: "S", name: "T. E. LAWRENCE", type: "STRATEGIST", quote: "\"Seven Pillars of Wisdom: Asymmetric Desert Warfare\"", lx: 0.25, ly: 0.85, rx: 0.75, ry: 0.15, color: "#facc15" },
+      { rank: "S", name: "T. E. LAWRENCE", type: "STRATEGIST", quote: "\"Seven Pillars of Wisdom: Asymmetric Desert Warfare\"", lx: 0.18, ly: 0.82, rx: 0.82, ry: 0.18, color: "#facc15" },
       { rank: "S", name: "HANNIBAL BARCA", type: "STRATEGIST", quote: "Cannae Double Envelopment Maneuver", lx: 0.15, ly: 0.65, rx: 0.85, ry: 0.35, color: "#b91c1c" },
-      { rank: "S", name: "HELMUTH VON MOLTKE", type: "STRATEGIST", quote: "\"No plan survives first contact with the enemy.\"", lx: 0.75, ly: 0.35, rx: 0.25, ry: 0.65, color: "#94a3b8" },
-      { rank: "S", name: "ERWIN ROMMEL", type: "GENERAL", quote: "Mobile Armor Maneuver & Tactical Decisive Speed", lx: 0.65, ly: 0.85, rx: 0.35, ry: 0.15, color: "#f97316" },
+      { rank: "S", name: "HELMUTH VON MOLTKE", type: "STRATEGIST", quote: "\"No plan survives first contact with the enemy.\"", lx: 0.82, ly: 0.28, rx: 0.18, ry: 0.72, color: "#94a3b8" },
+      { rank: "S", name: "ERWIN ROMMEL", type: "GENERAL", quote: "Mobile Armor Maneuver & Tactical Decisive Speed", lx: 0.58, ly: 0.82, rx: 0.42, ry: 0.18, color: "#f97316" },
       { rank: "S", name: "WINSTON CHURCHILL", type: "STATESMAN", quote: "\"We shall never surrender: Total Mobilization Will\"", lx: 0.45, ly: 0.85, rx: 0.55, ry: 0.15, color: "#e2e8f0" },
       { rank: "S", name: "ALBERT CAMUS", type: "PHILOSOPHER", quote: "\"One must imagine Sisyphus happy. Absurd Hero.\"", lx: 0.15, ly: 0.85, rx: 0.45, ry: 0.55, color: "#cbd5e1" },
       { rank: "S", name: "JORGE LUIS BORGES", type: "WRITER", quote: "The Library of Babel & Infinite Labyrinth Matrix", lx: 0.85, ly: 0.15, rx: 0.55, ry: 0.45, color: "#c084fc" },
 
       { rank: "A", name: "RUMI", type: "POET", quote: "\"You are not a drop in the ocean. You are the entire ocean in a drop.\"", lx: 0.45, ly: 0.65, rx: 0.55, ry: 0.35, color: "#fbbf24" },
       { rank: "A", name: "HANS SPEIDEL", type: "GENERAL", quote: "NATO Central Europe Defense Architecture", lx: 0.40, ly: 0.60, rx: 0.60, ry: 0.40, color: "#64748b" },
-      { rank: "A", name: "HESIOD", type: "POET", quote: "Theogony & Works and Days Archaic Cosmic Origin", lx: 0.60, ly: 0.40, rx: 0.40, ry: 0.60, color: "#fef08a" },
-      { rank: "A", name: "VEGETIUS", type: "STRATEGIST", quote: "\"Si vis pacem, para bellum (If you want peace, prepare for war).\"", lx: 0.35, ly: 0.60, rx: 0.65, ry: 0.40, color: "#f87171" },
-      { rank: "A", name: "SÁNDOR PETŐFI", type: "POET", quote: "\"Liberty and love these two I must have.\"", lx: 0.65, ly: 0.40, rx: 0.35, ry: 0.60, color: "#fb7185" },
-      { rank: "A", name: "VICTOR HUGO", type: "WRITER", quote: "Les Misérables & Epic Humanist Vision", lx: 0.40, ly: 0.65, rx: 0.60, ry: 0.35, color: "#cbd5e1" },
+      { rank: "A", name: "HESIOD", type: "POET", quote: "Theogony & Works and Days Archaic Cosmic Origin", lx: 0.56, ly: 0.14, rx: 0.24, ry: 0.76, color: "#fef08a" },
+      { rank: "A", name: "VEGETIUS", type: "STRATEGIST", quote: "\"Si vis pacem, para bellum (If you want peace, prepare for war).\"", lx: 0.28, ly: 0.58, rx: 0.72, ry: 0.42, color: "#f87171" },
+      { rank: "A", name: "SÁNDOR PETŐFI", type: "POET", quote: "\"Liberty and love these two I must have.\"", lx: 0.58, ly: 0.36, rx: 0.42, ry: 0.64, color: "#fb7185" },
+      { rank: "A", name: "VICTOR HUGO", type: "WRITER", quote: "Les Misérables & Epic Humanist Vision", lx: 0.44, ly: 0.68, rx: 0.56, ry: 0.32, color: "#cbd5e1" },
       { rank: "A", name: "JOHN MILTON", type: "POET", quote: "Paradise Lost: \"Better to reign in Hell, than serve in Heaven.\"", lx: 0.60, ly: 0.35, rx: 0.40, ry: 0.65, color: "#a855f7" },
-      { rank: "A", name: "JOHN BOYD", type: "STRATEGIST", quote: "OODA Loop (Observe, Orient, Decide, Act) Fast-Transient", lx: 0.35, ly: 0.65, rx: 0.65, ry: 0.35, color: "#38bdf8" },
-      { rank: "A", name: "MIKHAIL KUTUZOV", type: "STRATEGIST", quote: "Strategic Attrition & Russian Winter Warfare", lx: 0.65, ly: 0.35, rx: 0.35, ry: 0.65, color: "#94a3b8" },
+      { rank: "A", name: "JOHN BOYD", type: "STRATEGIST", quote: "OODA Loop (Observe, Orient, Decide, Act) Fast-Transient", lx: 0.22, ly: 0.68, rx: 0.78, ry: 0.32, color: "#38bdf8" },
+      { rank: "A", name: "MIKHAIL KUTUZOV", type: "STRATEGIST", quote: "Strategic Attrition & Russian Winter Warfare", lx: 0.74, ly: 0.26, rx: 0.26, ry: 0.74, color: "#94a3b8" },
       { rank: "A", name: "THEODORE ROOSEVELT JR.", type: "GENERAL", quote: "Utah Beach Normandy Invasion Leadership", lx: 0.38, ly: 0.62, rx: 0.62, ry: 0.38, color: "#94a3b8" },
       { rank: "A", name: "GEORGE ARTHUR TAYLOR", type: "OFFICER", quote: "\"Two kinds of people on this beach: Dead, and those going to die.\"", lx: 0.62, ly: 0.38, rx: 0.38, ry: 0.62, color: "#f87171" }
     ];
 
-    // Increased Difficulty Threshold Radius by Rank (Strict Precision Required)
     function getRankThreshold(rank) {
       switch(rank) {
-        case "SSS": return 0.025; // SSS: Highest difficulty
-        case "SS":  return 0.045; // SS:  Very High
-        case "S":   return 0.070; // S:   High
-        case "A":   return 0.095; // A:   Moderate
-        case "B":   return 0.120; // B:   Standard
+        case "SSS": return 0.025;
+        case "SS":  return 0.045;
+        case "S":   return 0.070;
+        case "A":   return 0.095;
+        case "B":   return 0.120;
         default:    return 0.080;
       }
     }
 
     let activeAttractor = null;
     let lastVibratedAttractor = null;
+
+    function setJoystickVectors(lx, ly, rx, ry) {
+      leftVector.x = lx;
+      leftVector.y = ly;
+      rightVector.x = rx;
+      rightVector.y = ry;
+
+      document.getElementById('val-lx').innerText = lx.toFixed(2);
+      document.getElementById('val-ly').innerText = ly.toFixed(2);
+      document.getElementById('val-rx').innerText = rx.toFixed(2);
+      document.getElementById('val-ry').innerText = ry.toFixed(2);
+
+      const padEl = document.getElementById('pad-left');
+      const radius = padEl ? (padEl.clientWidth / 2 - 10) : 60;
+      const dxL = (lx * 2 - 1) * radius;
+      const dyL = -(ly * 2 - 1) * radius;
+      const dxR = (rx * 2 - 1) * radius;
+      const dyR = -(ry * 2 - 1) * radius;
+
+      document.getElementById('handle-left').style.transform = `translate(${dxL}px, ${dyL}px)`;
+      document.getElementById('handle-right').style.transform = `translate(${dxR}px, ${dyR}px)`;
+    }
+
+    function addCaptureToSidebar(attractor, timeStr) {
+      const listEl = document.getElementById('sidebar-list');
+      const itemEl = document.createElement('div');
+      itemEl.className = 'sidebar-item';
+      itemEl.style.borderColor = attractor.color;
+
+      const showRank = (attractor.rank === "SSS" || attractor.name === "WALTER" || attractor.name === "PETER WEYLAND");
+      const displayTitle = showRank ? `[${attractor.rank}] ${attractor.name}` : attractor.name;
+
+      itemEl.innerHTML = `<span class="sidebar-item-title" style="color:${attractor.color}">${displayTitle}</span><span class="sidebar-item-time">${timeStr}</span>`;
+
+      itemEl.onclick = () => {
+        setJoystickVectors(attractor.lx, attractor.ly, attractor.rx, attractor.ry);
+      };
+
+      listEl.appendChild(itemEl);
+      listEl.scrollTop = listEl.scrollHeight;
+    }
 
     function setupJoystick(padId, handleId, readoutX, readoutY, onUpdate) {
       const pad = document.getElementById(padId);
@@ -477,7 +728,6 @@
         let dy = clientY - centerY;
         const dist = Math.hypot(dx, dy);
 
-        // 保留圓形物理限制（讓 UI 搖桿球體始終留在圓框內）
         if (dist > radius) {
           dx = (dx / dist) * radius;
           dy = (dy / dist) * radius;
@@ -485,11 +735,9 @@
 
         handle.style.transform = `translate(${dx}px, ${dy}px)`;
 
-        // 1. 取得圓形相對座標 u, v ∈ [-1, 1]
         let u = dx / radius;
-        let v = -dy / radius; // dy 取反以對應標準直角座標系 (Y向上為正)
+        let v = -dy / radius;
 
-        // 2. 方案 B：圓轉方放射狀映射 (Disk-to-Square Radial Mapping)
         let sqX = u;
         let sqY = v;
         if (u !== 0 || v !== 0) {
@@ -500,7 +748,6 @@
           sqY = Math.min(1, Math.max(-1, v * scale));
         }
 
-        // 3. 將 [-1, 1] 轉換為歸一化座標 [0, 1]
         const normX = parseFloat(((sqX + 1) / 2).toFixed(2));
         const normY = parseFloat(((sqY + 1) / 2).toFixed(2));
 
@@ -529,14 +776,7 @@
     setupJoystick('pad-right', 'handle-right', 'val-rx', 'val-ry', (x, y) => { rightVector.x = x; rightVector.y = y; });
 
     function resetJoysticks() {
-      leftVector = { x: 0.5, y: 0.5 };
-      rightVector = { x: 0.5, y: 0.5 };
-      document.getElementById('handle-left').style.transform = 'translate(0px, 0px)';
-      document.getElementById('handle-right').style.transform = 'translate(0px, 0px)';
-      document.getElementById('val-lx').innerText = '0.50';
-      document.getElementById('val-ly').innerText = '0.50';
-      document.getElementById('val-rx').innerText = '0.50';
-      document.getElementById('val-ry').innerText = '0.50';
+      setJoystickVectors(0.5, 0.5, 0.5, 0.5);
     }
 
     let time = 0;
@@ -544,13 +784,12 @@
     function renderMatrix() {
       time += 0.02;
       ctx.fillStyle = 'rgba(2, 4, 8, 0.28)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillRect(0, 0, baseWidth, baseHeight);
 
       let matchedAttractor = null;
       let minRatio = Infinity;
       let closestDist = Infinity;
 
-      // Scan all 117 attractors against tightened rank precision thresholds
       attractors.forEach(att => {
         const d = Math.hypot(
           leftVector.x - att.lx,
@@ -568,14 +807,26 @@
         }
       });
 
-      // Exponential Probability Fault Gradient calculation
       const exponentialFaultGradient = Math.exp(Math.max(0, 0.25 - (closestDist === Infinity ? 0.25 : closestDist)) * 5);
 
       if (matchedAttractor) {
         activeAttractor = matchedAttractor;
-        
-        // Show Rank prefix ONLY for SSS and SS
-        const showRank = (activeAttractor.rank === "SSS" || activeAttractor.rank === "SS");
+
+        // Register captured node & add to sequence if new (non-repeating)
+        if (!capturedAttractors.has(activeAttractor.name)) {
+          capturedAttractors.add(activeAttractor.name);
+          const timeStr = getElapsedMMSS();
+          capturedSequence.push({
+            name: activeAttractor.name,
+            type: activeAttractor.type,
+            rank: activeAttractor.rank,
+            time: timeStr
+          });
+          document.getElementById('captured-count').innerText = capturedAttractors.size;
+          addCaptureToSidebar(activeAttractor, timeStr);
+        }
+
+        const showRank = (activeAttractor.rank === "SSS" || activeAttractor.name === "WALTER" || activeAttractor.name === "PETER WEYLAND");
         const displayTitle = showRank ? `[${activeAttractor.rank}] ${activeAttractor.name}` : activeAttractor.name;
 
         document.getElementById('status-indicator').innerText = `PROBABILITY FAULT CONDENSED: [${activeAttractor.type}] ${displayTitle} (e^λ: ${exponentialFaultGradient.toFixed(2)})`;
@@ -586,7 +837,7 @@
           if (navigator.vibrate) {
             if (activeAttractor.rank === "SSS") {
               navigator.vibrate(3000);
-            } else if (activeAttractor.rank === "SS") {
+            } else if (activeAttractor.name === "WALTER") {
               navigator.vibrate(1000);
             }
           }
@@ -594,15 +845,14 @@
       } else {
         activeAttractor = null;
         lastVibratedAttractor = null;
-        document.getElementById('status-indicator').innerText = 'STATE: SEARCHING 117-MIND MANIFOLD (EXPONENTIAL GRADIENT ACTIVE)...';
+        document.getElementById('status-indicator').innerText = 'STATE: VACUUM ZERO POINT (117 ATTRACTORS ONLINE)...';
         document.getElementById('status-indicator').style.color = 'var(--accent-gold)';
       }
 
-      // Background grid warping
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
       ctx.lineWidth = 1;
       const gridCols = 16, gridRows = 8;
-      const cellW = canvas.width / gridCols, cellH = canvas.height / gridRows;
+      const cellW = baseWidth / gridCols, cellH = baseHeight / gridRows;
 
       for (let i = 0; i <= gridCols; i++) {
         ctx.beginPath();
@@ -616,9 +866,8 @@
         ctx.stroke();
       }
 
-      const centerX = canvas.width / 2, centerY = canvas.height / 2;
+      const centerX = baseWidth / 2, centerY = baseHeight / 2;
 
-      // Particle Movement Dynamics
       particles.forEach((p, idx) => {
         if (activeAttractor) {
           const targetX = centerX + Math.cos(idx * 0.15 + time) * (120 * (1 - minRatio * 0.8));
@@ -632,10 +881,10 @@
           p.vy = Math.cos(time + p.x * freqFactor) * densityFactor + (rightVector.y - 0.5) * 2;
           p.x += p.vx;
           p.y += p.vy;
-          if (p.x < 0) p.x = canvas.width;
-          if (p.x > canvas.width) p.x = 0;
-          if (p.y < 0) p.y = canvas.height;
-          if (p.y > canvas.height) p.y = 0;
+          if (p.x < 0) p.x = baseWidth;
+          if (p.x > baseWidth) p.x = 0;
+          if (p.y < 0) p.y = baseHeight;
+          if (p.y > baseHeight) p.y = 0;
         }
 
         ctx.fillStyle = activeAttractor ? activeAttractor.color : `rgba(255, 255, 255, ${0.3 + (idx % 5) * 0.12})`;
@@ -644,7 +893,6 @@
         ctx.fill();
       });
 
-      // Concept Nodes display
       conceptNodes.forEach((node, idx) => {
         const d = Math.hypot(
           leftVector.x - node.target.lx,
@@ -661,32 +909,30 @@
         }
       });
 
-      // Active Attractor Card Rendering
       if (activeAttractor) {
         ctx.save();
         ctx.textAlign = 'center';
         ctx.fillStyle = 'rgba(0, 5, 12, 0.92)';
-        ctx.fillRect(canvas.width / 2 - 290, canvas.height / 2 - 55, 580, 105);
+        ctx.fillRect(baseWidth / 2 - 290, baseHeight / 2 - 55, 580, 105);
         ctx.strokeStyle = activeAttractor.color;
         ctx.lineWidth = (activeAttractor.rank === "SSS" || activeAttractor.rank === "SS") ? 3 : 2;
-        ctx.strokeRect(canvas.width / 2 - 290, canvas.height / 2 - 55, 580, 105);
+        ctx.strokeRect(baseWidth / 2 - 290, baseHeight / 2 - 55, 580, 105);
 
         ctx.fillStyle = activeAttractor.color;
         ctx.font = '700 17px "Courier New", monospace';
         
-        // Show Rank prefix ONLY for SSS and SS on the Card
-        const showRank = (activeAttractor.rank === "SSS" || activeAttractor.rank === "SS");
+        const showRank = (activeAttractor.rank === "SSS" || activeAttractor.name === "WALTER" || activeAttractor.name === "PETER WEYLAND");
         const cardTitle = showRank ? `[${activeAttractor.rank}] ${activeAttractor.name}` : activeAttractor.name;
         
-        ctx.fillText(`${activeAttractor.type}: ${cardTitle}`, canvas.width / 2, canvas.height / 2 - 18);
+        ctx.fillText(`${activeAttractor.type}: ${cardTitle}`, baseWidth / 2, baseHeight / 2 - 18);
 
         ctx.fillStyle = '#ffffff';
         ctx.font = 'bold 11px "Courier New", monospace';
-        ctx.fillText(activeAttractor.quote, canvas.width / 2, canvas.height / 2 + 15);
+        ctx.fillText(activeAttractor.quote, baseWidth / 2, baseHeight / 2 + 15);
         
         ctx.fillStyle = 'var(--text-dim)';
         ctx.font = '9px "Courier New", monospace';
-        ctx.fillText(`PROBABILITY FAULT GRADIENT (e^λ): ${exponentialFaultGradient.toFixed(4)}`, canvas.width / 2, canvas.height / 2 + 38);
+        ctx.fillText(`PROBABILITY FAULT GRADIENT (e^λ): ${exponentialFaultGradient.toFixed(4)}`, baseWidth / 2, baseHeight / 2 + 38);
         ctx.restore();
       }
 
@@ -696,11 +942,20 @@
     renderMatrix();
 
     function copyLog() {
-      const showRank = activeAttractor && (activeAttractor.rank === "SSS" || activeAttractor.rank === "SS");
-      const displayTitle = activeAttractor 
-        ? (showRank ? `[${activeAttractor.rank}] ${activeAttractor.name}` : activeAttractor.name) 
-        : null;
-      const state = activeAttractor ? `${activeAttractor.type} -> ${displayTitle}` : "UNCONDENSED MANIFOLD";
+      const currentTarget = activeAttractor 
+        ? ((activeAttractor.rank === "SSS" || activeAttractor.name === "WALTER" || activeAttractor.name === "PETER WEYLAND") 
+            ? `[${activeAttractor.rank}] ${activeAttractor.name}` 
+            : activeAttractor.name)
+        : "NONE (VACUUM ZERO POINT)";
+
+      // Formatted list of unique captured sequence (non-repeating)
+      const sequenceList = capturedSequence.length > 0
+        ? capturedSequence.map((item, index) => {
+            const num = String(index + 1).padStart(2, '0');
+            return `  ${num}. [${item.time}] [${item.type}] ${item.name}`;
+          }).join('\n')
+        : "  [NO ATTRACTORS CONDENSED YET]";
+
       const log = `==================================================
 WEYLAND-YUTANI CORP // FISHER INFORMATION MANIFOLD LOG (117 NODES)
 TIMESTAMP: ${new Date().toISOString()}
@@ -708,18 +963,30 @@ TIMESTAMP: ${new Date().toISOString()}
 [JOYSTICK METRIC VECTORS]
 - LEFT JOYSTICK (Bit Density ρ) : X=${leftVector.x}, Y=${leftVector.y}
 - RIGHT JOYSTICK (Frequency ω)  : X=${rightVector.x}, Y=${rightVector.y}
+- CURRENT ACTIVE TARGET        : ${currentTarget}
+
+[PROGRESS & SESSION METRICS]
+- UNIQUE ATTRACTORS CAPTURED    : ${capturedAttractors.size}/117
+- TERMINAL UPTIME              : ${document.getElementById('uptime-counter').innerText}
 
 [EXPONENTIAL PROBABILITY FAULT STATE]
-- ATTRACTOR STATUS: ${state}
+- CAPTURED SEQUENCE (CHRONOLOGICAL):
+${sequenceList}
 ==================================================`;
+
       navigator.clipboard.writeText(log).then(() => { alert("FISHER METRIC LOG COPIED TO CLIPBOARD."); });
     }
 
     function downloadImage() {
       const area = document.getElementById('capture-area');
-      html2canvas(area, { backgroundColor: '#080c14', scale: 2 }).then(canvasCap => {
+      html2canvas(area, { 
+        backgroundColor: '#080c14', 
+        scale: 3, 
+        useCORS: true,
+        logging: false
+      }).then(canvasCap => {
         const a = document.createElement('a');
-        a.href = canvasCap.toDataURL('image/png');
+        a.href = canvasCap.toDataURL('image/png', 1.0);
         a.download = `Fisher_Manifold_117Nodes_${Date.now()}.png`;
         document.body.appendChild(a);
         a.click();
